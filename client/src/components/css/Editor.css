@@ -1,0 +1,33 @@
+.editor {
+  width: 300px;
+  margin: 0 auto; }
+  .editor .editorCommonClass, .editor input, .editor textarea, .editor button {
+    font-size: 20px;
+    padding: 5px;
+    border: none; }
+  .editor input {
+    display: block;
+    width: 100%;
+    color: firebrick;
+    text-align: center; }
+  .editor textarea {
+    border-top: 1px solid antiquewhite;
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    color: cadetblue; }
+  .editor button {
+    display: inline-block;
+    margin: 10px;
+    color: red;
+    padding: 7px 25px;
+    transition: all 0.5s;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer; }
+    .editor button:hover {
+      box-shadow: 0 0 7px green; }
+
+/*# sourceMappingURL=Editor.css.map */

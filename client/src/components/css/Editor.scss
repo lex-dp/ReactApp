@@ -1,0 +1,47 @@
+.editor {
+	width: 300px;
+	margin: 0 auto;
+
+	.editorCommonClass {
+		font-size: 20px;
+		padding: 5px;
+		border: none;
+	}
+
+	input {
+		@extend .editorCommonClass;
+		display: block;
+		width: 100%;
+		color: firebrick;
+		text-align: center;
+	}
+
+	textarea {
+		@extend .editorCommonClass;
+
+		border-top: 1px solid antiquewhite;
+		display: block;
+		width: 100%;
+		font-size: 18px;
+		color: cadetblue;
+	}
+
+	button {
+		@extend .editorCommonClass;
+
+		display: inline-block;
+		margin: 10px;
+		color: red;
+		padding: 7px 25px;
+		transition: all 0.5s;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		border: none;
+		cursor: pointer;
+
+		&:hover {
+			box-shadow: 0 0 7px green;
+		}
+	}
+}

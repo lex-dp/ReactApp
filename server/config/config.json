@@ -1,0 +1,4 @@
+{
+	"dbPath": "mongodb://localhost/note",
+	"secret": "92ad23ee0e77c16120aa62819376792cdc26c05d"
+}
