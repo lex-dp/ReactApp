@@ -1,13 +1,18 @@
 const Note = require('../models/Note');
 
-exports.get = function(req, res) {
+function sendNotes(res) {
 	Note.find({}, function (err, list) {
 		if (err) {
 			console.error('Load list error');
 			return false;
 		}
 		res.json(list);
-	})
+	});
+}
+
+
+exports.get = function(req, res) {
+	sendNotes(res);
 };
 
 exports.post = function (req, res) {
@@ -18,9 +23,15 @@ exports.post = function (req, res) {
 
 	if (body) {
 		const newItem = new Note(body);
-		newItem.save();
+		newItem.save(function (err, item) {
+			if (err) {
+				console.error('Save Error!');
+				return false;
+			}
 
-		res.json(body);
+			sendNotes(res);
+		});
+
 	} else {
 		res.json({
 			status: 'Error',
@@ -38,6 +49,27 @@ exports.delete = function (req, res) {
 		}
 		console.log("note", note);
 		note.remove();
-		res.json(note).status(200);
-	})
+
+		sendNotes(res);
+	});
+};
+
+exports.put = function (req, res) {
+	const id = req.params.id;
+
+	const newData = {
+		title: req.body.title,
+		message: req.body.message
+	};
+console.log("req.body", req.body);
+	Note.update({ _id: id }, { $set: { title: newData.title, message: newData.message }}, function (err, editNote) {
+		if (err) {
+			console.error('Update list error');
+			return false;
+		}
+
+		sendNotes(res);
+	});
+
+
 };

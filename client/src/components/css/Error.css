@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "errorMsg";
+  src: url("./fonts/errorFont/errorMsg.eot");
+  src: url("./fonts/errorFont/errorMsg.eot?#iefix") format("embedded-opentype"), url("./fonts/errorFont/errorMsg.woff") format("woff"), url("./fonts/errorFont/errorMsg.ttf") format("truetype"), url("./fonts/errorFont/errorMsg.svg#errorMsg") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  @font-face {
+    font-family: "errorMsg";
+    src: url("./fonts/errorFont/errorMsg.svg#errorMsg") format("svg"); } }
+[class^="errorMsg-"]:before, [class*=" errorMsg-"]:before,
+[class^="errorMsg-"]:after, [class*=" errorMsg-"]:after {
+  font-family: errorMsg;
+  font-size: 20px;
+  font-style: normal;
+  margin-left: 20px; }
+
+.flaticon-signs:before {
+  content: "\f100"; }
+
+.error, .warning {
+  font-family: 'errorMsg'; }
+
+.error:before {
+  content: '\f100';
+  color: red; }
+
+.warning:before {
+  content: '\f100';
+  color: yellow; }
+
+/*# sourceMappingURL=Error.css.map */

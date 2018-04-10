@@ -1,15 +1,15 @@
 import React from 'react';
 
 import './css/Editor.css';
-
-import NoteActions from '../actions/Actions';
+import Error from './Error';
 
 class Editor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			title: '',
-			message: ''
+			message: '',
+			err: false
 		};
 		this.onMessageChange = this.onMessageChange.bind(this);
 		this.onTitleChange = this.onTitleChange.bind(this);
@@ -66,32 +66,62 @@ class Editor extends React.Component {
 	}
 
 	handleClick(e) {
-		/*if (this.checkLength()) {
+		if (!this.checkMsgLength() || !this.checkTitleLength()) {
+			console.log("err");
+			this.setState({
+			    err: true
+			});
+			return false;
+		} else {
+			this.setState({
+				err: false
+			});
 			this.addItem();
-		}*/
-		this.checkMsgLength();
+		}
+		/*this.checkMsgLength();
 		this.checkTitleLength();
-		this.addItem();
+		this.addItem();*/
 
 	}
 
     render() {
-        return(
-            <div className={'editor'}>
-				<input type="text"
-					   placeholder={'Title'}
-					   value={this.state.title}
-					   onChange={this.onTitleChange}
-				/>
-				<textarea
-					cols="25"
-					rows="7"
-					placeholder={'Message'}
-					value={this.state.message}
-					onChange={this.onMessageChange}></textarea>
-				<button type={'button'} onClick={this.handleClick}>Add</button>
-            </div>
-        );
+		if (this.state.err) {
+			return(
+				<div className={'editor'}>
+					<input type="text"
+						   placeholder={'Title'}
+						   value={this.state.title}
+						   onChange={this.onTitleChange}
+					/>
+					<textarea
+						cols="25"
+						rows="7"
+						placeholder={'Message'}
+						value={this.state.message}
+						onChange={this.onMessageChange}></textarea>
+					<button type={'button'} onClick={this.handleClick}>Add</button>
+					<Error/>
+				</div>
+			);
+		} else {
+			return(
+				<div className={'editor'}>
+					<input type="text"
+						   placeholder={'Title'}
+						   value={this.state.title}
+						   onChange={this.onTitleChange}
+					/>
+					<textarea
+						cols="25"
+						rows="7"
+						placeholder={'Message'}
+						value={this.state.message}
+						onChange={this.onMessageChange}></textarea>
+					<button type={'button'} onClick={this.handleClick}>Add</button>
+				</div>
+			);
+		}
+
     }
 }
 

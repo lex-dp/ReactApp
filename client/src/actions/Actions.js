@@ -28,7 +28,8 @@ const Actions = {
 			.then(({ data }) =>
 				NoteDispatcher.dispatch({
 					type: ActionsTypes.ADD_ITEM,
-					newItem: data
+					//newItem: data
+					notes: data
 				})
 			);
 	},
@@ -37,15 +38,18 @@ const Actions = {
 			.then(({ data }) =>
 				NoteDispatcher.dispatch({
 					type: ActionsTypes.REMOVE_ITEM,
-					remove: data
+					notes: data
 				})
 			);
 	},
-	editItem(stateObj) {
-		NoteDispatcher.dispatch({
-			type: ActionsTypes.EDIT_ITEM,
-			messageObj: stateObj
-		})
+	editItem(editData) {
+		api.editNote(editData)
+			.then(({ data }) =>
+				NoteDispatcher.dispatch({
+					type: ActionsTypes.EDIT_ITEM,
+					notes: data
+				})
+			);
 	}
 };
 

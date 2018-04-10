@@ -17,6 +17,7 @@ module.exports = function(app) {
 	app.get('/notes', notes.get);
 	app.post('/notes', notes.post);
 	app.delete('/notes/:id', notes.delete);
+	app.put('/notes/:id', notes.put);
 
 
 };

@@ -11,5 +11,10 @@ export default {
 
 	deleteNote(noteId) {
 		return axios.delete(`/notes/${noteId}`);
+	},
+
+	editNote(editData) {
+		return axios.put(`/notes/${editData.id}` , editData);
 	}
+
 }

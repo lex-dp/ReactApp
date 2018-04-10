@@ -2,11 +2,9 @@ import React from 'react';
 
 import './css/Message.css';
 
-import NoteActions from '../actions/Actions';
-
 class Message extends React.Component {
 	constructor(props){
-	    super(props);
+		super(props);
 		this.state = {
 			title: props.title,
 			message: props.message,
@@ -15,12 +13,12 @@ class Message extends React.Component {
 			messageBeforeEdit: null,
 			id: props.id
 		};
-	    this.handleClickRemove = this.handleClickRemove.bind(this);
-	    this.handleClickEditWindow = this.handleClickEditWindow.bind(this);
+		this.handleClickRemove = this.handleClickRemove.bind(this);
+		this.handleClickEditWindow = this.handleClickEditWindow.bind(this);
 		this.onTitleChange = this.onTitleChange.bind(this);
-	    this.onMessageChange = this.onMessageChange.bind(this);
-	    this.editItemCancel = this.editItemCancel.bind(this);
-	    this.editItemChange = this.editItemChange.bind(this);
+		this.onMessageChange = this.onMessageChange.bind(this);
+		this.editItemCancel = this.editItemCancel.bind(this);
+		this.editItemChange = this.editItemChange.bind(this);
 	}
 
 
@@ -40,41 +38,11 @@ class Message extends React.Component {
 		this.props.onRemove(this.state.id);
 	}
 
-	componentWillUnmount() {
-		console.log("componentWillUnmount() this will remove Message", this);
-	}
-
-
-
-
-
-	/*componentWillReceiveProps(nextProps) {
-		console.log("componentWillReceiveProps() Message");
-	}
-
-	componentDidMount(){
-		console.log("componentDidMount() Message");
-	}
-
-	shouldComponentUpdate(){
-		console.log("shouldComponentUpdate() Message");
-		return true;
-	}
-	componentWillUpdate(){
-		console.log("componentWillUpdate() Message");
-	}
-	componentDidUpdate(){
-		console.log("componentDidUpdate() Message");
-	}*/
-
-
-
-
 	handleClickEditWindow() {
 		this.setState({
 			titleBeforeEdit: this.state.title,
 			messageBeforeEdit: this.state.message,
-		    edit: true
+			edit: true
 		});
 	}
 
@@ -82,15 +50,22 @@ class Message extends React.Component {
 		this.setState({
 			title: this.state.titleBeforeEdit,
 			message: this.state.messageBeforeEdit,
-		    edit: false
+			edit: false
 		});
 	}
 
 	editItemChange() {
 		this.setState({
-		    edit: false
+			edit: false
 		});
-		this.props.onEdit(this.state);
+
+		let editData = {
+			title: this.state.title,
+			message: this.state.message,
+			id: this.state.id
+		};
+
+		this.props.onEdit(editData);
 	}
 
 
@@ -105,7 +80,7 @@ class Message extends React.Component {
 						placeholder={'Message'}
 						value={this.state.message}
 						onChange={this.onMessageChange}
-						></textarea>
+					></textarea>
 					<button type={'button'} onClick={this.editItemCancel}>Cancel</button>
 					<button type={'button'} onClick={this.editItemChange}>Edit</button>
 				</div>

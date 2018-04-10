@@ -1,7 +1,6 @@
 import { ReduceStore } from 'flux/utils';
 import ActionsTypes from '../actions/ActionsTypes';
 import NoteDispatcher from '../dispatcher/NoteDispatcher';
-import NoteActions from "../actions/Actions";
 
 let _isLoading = true;
 
@@ -46,7 +45,6 @@ class NoteStore extends ReduceStore {
 			case ActionsTypes.LOAD_NOTES_SUCCESS: {
 
 				_isLoading = false;
-
 				//return action.notes.map( formatNote );
 				state = action.notes.map( formatNote );
 				return state;
@@ -58,26 +56,13 @@ class NoteStore extends ReduceStore {
 			}
 
 			case ActionsTypes.ADD_ITEM:
-				console.log("action add" , action);
-
-				console.log("state add", state);
+				state = action.notes.map( formatNote );
 				return state;
 
 			case ActionsTypes.REMOVE_ITEM:
-				console.log("state remove", state);
-				console.log("action remove", action);
-				let id = action.remove._id;
-
-				state.forEach(function (item, i, arr) {
-					let search = item.id.indexOf(id);
-					if (search > -1) {
-						arr.splice(i, 1);
-						return;
-					}
-					return state;
-				});
-
+				state = action.notes.map( formatNote );
 				return state;
+
 			case ActionsTypes.EDIT_ITEM:
 
 			/*	let findIndex = state.findIndex(item => item.title === "Google Pixel");
@@ -85,7 +70,10 @@ class NoteStore extends ReduceStore {
 					title: action.messageObj.title,
 					message: action.messageObj.message
 				});*/
+				state = action.notes.map( formatNote );
+				return state;
 
+			break;
 			default:
 				return state;
 		}

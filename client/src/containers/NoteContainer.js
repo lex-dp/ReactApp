@@ -3,6 +3,8 @@ import { Container } from 'flux/utils';
 import React from 'react';
 import NoteStore from '../store/NoteStore';
 import Actions from '../actions/Actions';
+import NoteActions from '../actions/Actions';
+
 
 class NoteContainer extends React.Component {
     static getStores() {
@@ -16,6 +18,10 @@ class NoteContainer extends React.Component {
 			onRemoveItem: Actions.removeItem,
 			onEditItem: Actions.editItem
 		};
+	}
+
+	componentWillMount() {
+		NoteActions.loadNotes();
 	}
 
 	render() {
