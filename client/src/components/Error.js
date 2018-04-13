@@ -8,15 +8,19 @@ class Error extends React.Component {
 	    super(props);
 	    this.state = {
 	        message: this.props.message,
-			type: this.props.type
+			type: this.props.type,
+			onMouseEnter: this.props.onMouseEnter,
+			onMouseLeave: this.props.onMouseLeave
 	    };
 	}
-
 
 	render() {
 		if (this.state.type == 'warning') {
 			return(
-				<div className={'warning'}>
+				<div className={'warning'}
+					 onMouseEnter={this.state.onMouseEnter}
+					 onMouseLeave={this.state.onMouseLeave}
+				>
 					{
 						this.state.message
 					}
@@ -24,7 +28,10 @@ class Error extends React.Component {
 			);
 		} else {
 			return(
-				<div className={'error'}>
+				<div className={'error'}
+					 onMouseEnter={this.state.onMouseEnter}
+					 onMouseLeave={this.state.onMouseLeave}
+				>
 					{
 						this.state.message
 					}

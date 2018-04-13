@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,kBAAmB;EAClB,KAAK,EAAE,IAAI",
+"sources": ["MessageContainer.scss"],
 "names": [],
 "file": "MessageContainer.css"
 }

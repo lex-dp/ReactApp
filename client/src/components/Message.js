@@ -1,6 +1,8 @@
 import React from 'react';
 
 import './css/Message.css';
+import Error from './Error';
+
 
 class Message extends React.Component {
 	constructor(props){
@@ -11,7 +13,12 @@ class Message extends React.Component {
 			edit: false,
 			titleBeforeEdit: null,
 			messageBeforeEdit: null,
-			id: props.id
+			id: props.id,
+
+
+			err: false,
+			maxTitleLength: 80,
+			maxMsgLength: 80,
 		};
 		this.handleClickRemove = this.handleClickRemove.bind(this);
 		this.handleClickEditWindow = this.handleClickEditWindow.bind(this);
@@ -20,7 +27,6 @@ class Message extends React.Component {
 		this.editItemCancel = this.editItemCancel.bind(this);
 		this.editItemChange = this.editItemChange.bind(this);
 	}
-
 
 	onMessageChange(e) {
 		this.setState({
@@ -68,9 +74,60 @@ class Message extends React.Component {
 		this.props.onEdit(editData);
 	}
 
+	//new one
+	checkTitleLength() {
+		let titleArr = this.state.title.split(' ');
+		for (let i = 0; i < titleArr.length; i++) {
+			if (titleArr[i].length > this.state.maxTitleLength) {
+				this.setState({
+					errMessage: `Title word can\'t be bigger than ${this.state.maxTitleLength} symbols. Please fix this word: \n` +  titleArr[i]
+				});
+				return false;
+			}
+		}
+		return true;
+	}
+
+	checkMsgLength() {
+		let msgArr = this.state.message.split(' ');
+		for (let i = 0; i < msgArr.length; i++) {
+			if (msgArr[i].length > this.state.maxMsgLength) {
+				this.setState({
+					errMessage: `Message word can\'t be bigger than ${this.state.maxMsgLength} symbols. Please fix this word: \n` +  msgArr[i]
+				});
+				return false;
+			}
+		}
+		return true;
+	}
+
+	checkTitleErr() {
+		if (!this.checkTitleLength()) {
+			this.setState({
+				err: true
+			});
+		} else {
+			this.setState({
+				err: false
+			});
+		}
+	}
+
+	checkMessageErr() {
+		if (!this.checkMsgLength()) {
+			this.setState({
+				err: true
+			});
+		} else {
+			this.setState({
+				err: false
+			});
+		}
+	}
+
 
 	render() {
-		if (this.state.edit) {
+		if (this.state.edit && !this.state.err) {
 			return (
 				<div className={'message message_edit'}>
 					<input type="text" value={this.state.title} onChange={this.onTitleChange}/>
@@ -85,7 +142,28 @@ class Message extends React.Component {
 					<button type={'button'} onClick={this.editItemChange}>Edit</button>
 				</div>
 			)
-		}else {
+		}else if (this.state.edit && this.state.err) {
+			return (
+				<div className={'container_error'} >
+					<div className={'message message_edit'}>
+						<input type="text" value={this.state.title} onChange={this.onTitleChange}/>
+						<textarea
+							cols="25"
+							rows="7"
+							placeholder={'Message'}
+							value={this.state.message}
+							onChange={this.onMessageChange}
+						></textarea>
+						<button type={'button'} onClick={this.editItemCancel}>Cancel</button>
+						<button type={'button'} onClick={this.editItemChange}>Edit</button>
+					</div>
+					<Error/>
+				</div>
+
+			)
+		}
+
+		else {
 			return(
 				<div className={'message'}>
 					<h3>{this.props.title}</h3>

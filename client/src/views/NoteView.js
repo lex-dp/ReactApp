@@ -4,7 +4,6 @@ import Container from '../components/Container';
 import Editor from '../components/Editor';
 import MessageContainer from '../components/MessageContainer';
 import Message from '../components/Message';
-import Error from '../components/Error';
 
 class NoteView extends React.Component {
 	onRemove(item){
@@ -19,7 +18,6 @@ class NoteView extends React.Component {
 
 	    return(
 			<Container>
-				<Error message/>
 				<Editor messages={this.props.messages} onAddItem={this.props.onAddItem}/>
 				<MessageContainer>
 					{
