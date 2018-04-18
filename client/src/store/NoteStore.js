@@ -20,17 +20,6 @@ class NoteStore extends ReduceStore {
         super(NoteDispatcher);
     }
 
-   /* getInitialState() {
-		return Immutable.List.of({
-				title: 'iPhone 7',
-				message: 'New model'
-			},
-			{
-				title:  'Google Pixel',
-				message: 'Clasic model'
-			});
-	}*/
-
     getInitialState() {
 		return [];
 	}
@@ -45,7 +34,6 @@ class NoteStore extends ReduceStore {
 			case ActionsTypes.LOAD_NOTES_SUCCESS: {
 
 				_isLoading = false;
-				//return action.notes.map( formatNote );
 				state = action.notes.map( formatNote );
 				return state;
 			}
@@ -64,12 +52,6 @@ class NoteStore extends ReduceStore {
 				return state;
 
 			case ActionsTypes.EDIT_ITEM:
-
-			/*	let findIndex = state.findIndex(item => item.title === "Google Pixel");
-				return state.setIn([findIndex], {
-					title: action.messageObj.title,
-					message: action.messageObj.message
-				});*/
 				state = action.notes.map( formatNote );
 				return state;
 

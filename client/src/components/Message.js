@@ -2,6 +2,7 @@ import React from 'react';
 
 import './css/Message.css';
 import Error from './Error';
+import NoteActions from "../actions/Actions";
 
 
 class Message extends React.Component {
@@ -17,8 +18,11 @@ class Message extends React.Component {
 
 
 			err: false,
+			errMessage: '',
 			maxTitleLength: 80,
 			maxMsgLength: 80,
+			titleClass: '',
+			messageClass: ''
 		};
 		this.handleClickRemove = this.handleClickRemove.bind(this);
 		this.handleClickEditWindow = this.handleClickEditWindow.bind(this);
@@ -26,15 +30,26 @@ class Message extends React.Component {
 		this.onMessageChange = this.onMessageChange.bind(this);
 		this.editItemCancel = this.editItemCancel.bind(this);
 		this.editItemChange = this.editItemChange.bind(this);
+
+		this.checkTitleLength = this.checkTitleLength.bind(this);
+		this.checkMsgLength = this.checkMsgLength.bind(this);
+
+		this.checkTitleErr = this.checkTitleErr.bind(this);
+		this.checkMessageErr = this.checkMessageErr.bind(this);
+
+		this.handleMouserEnter = this.handleMouserEnter.bind(this);
+		this.handleMouserLeave = this.handleMouserLeave.bind(this);
 	}
 
 	onMessageChange(e) {
+		this.checkMessageErr();
 		this.setState({
 			message: e.target.value
 		});
 	}
 
 	onTitleChange(e) {
+		this.checkTitleErr();
 		this.setState({
 			title: e.target.value
 		});
@@ -56,25 +71,34 @@ class Message extends React.Component {
 		this.setState({
 			title: this.state.titleBeforeEdit,
 			message: this.state.messageBeforeEdit,
-			edit: false
+			edit: false,
+			err: false,
+			errMessage: ''
 		});
 	}
 
 	editItemChange() {
-		this.setState({
-			edit: false
-		});
+		if (!this.checkMsgLength() || !this.checkTitleLength()) {
+			this.setState({
+				err: true
+			});
+			return false;
+		} else {
+			this.setState({
+				err: false,
+				edit: false
+			});
 
-		let editData = {
-			title: this.state.title,
-			message: this.state.message,
-			id: this.state.id
-		};
+			let editData = {
+				title: this.state.title,
+				message: this.state.message,
+				id: this.state.id
+			};
 
-		this.props.onEdit(editData);
+			this.props.onEdit(editData);
+		}
 	}
 
-	//new one
 	checkTitleLength() {
 		let titleArr = this.state.title.split(' ');
 		for (let i = 0; i < titleArr.length; i++) {
@@ -125,18 +149,50 @@ class Message extends React.Component {
 		}
 	}
 
+	handleMouserEnter() {
+		if (!this.checkTitleLength()) {
+			this.setState({
+				titleClass: 'error_length'
+			});
+		} if (!this.checkMsgLength()) {
+			this.setState({
+				messageClass: 'error_length'
+			});
+		}
+
+		this.setState({
+			titleBeforeChange: this.state.title,
+			messageBeforeChange: this.state.message,
+			message: this.state.errMessage
+		});
+	}
+
+	handleMouserLeave() {
+		this.setState({
+			titleBeforeChange: '',
+			messageBeforeChange: '',
+			message: this.state.messageBeforeChange,
+			titleClass: '',
+			messageClass: ''
+		});
+	}
 
 	render() {
 		if (this.state.edit && !this.state.err) {
 			return (
 				<div className={'message message_edit'}>
-					<input type="text" value={this.state.title} onChange={this.onTitleChange}/>
+					<input type="text"
+						   value={this.state.title}
+						   onChange={this.onTitleChange}
+						   onBlur={this.onTitleChange}
+					/>
 					<textarea
 						cols="25"
 						rows="7"
 						placeholder={'Message'}
 						value={this.state.message}
 						onChange={this.onMessageChange}
+						onBlur={this.onMessageChange}
 					></textarea>
 					<button type={'button'} onClick={this.editItemCancel}>Cancel</button>
 					<button type={'button'} onClick={this.editItemChange}>Edit</button>
@@ -144,26 +200,28 @@ class Message extends React.Component {
 			)
 		}else if (this.state.edit && this.state.err) {
 			return (
-				<div className={'container_error'} >
 					<div className={'message message_edit'}>
-						<input type="text" value={this.state.title} onChange={this.onTitleChange}/>
+						<input type="text"
+							   value={this.state.title}
+							   onChange={this.onTitleChange}
+							   onBlur={this.onTitleChange}
+							   className={this.state.titleClass}
+						/>
 						<textarea
 							cols="25"
 							rows="7"
 							placeholder={'Message'}
 							value={this.state.message}
 							onChange={this.onMessageChange}
+							onBlur={this.onMessageChange}
+							className={this.state.messageClass}
 						></textarea>
 						<button type={'button'} onClick={this.editItemCancel}>Cancel</button>
 						<button type={'button'} onClick={this.editItemChange}>Edit</button>
+						<Error onMouseEnter={this.handleMouserEnter} onMouseLeave={this.handleMouserLeave}/>
 					</div>
-					<Error/>
-				</div>
-
 			)
-		}
-
-		else {
+		} else {
 			return(
 				<div className={'message'}>
 					<h3>{this.props.title}</h3>
