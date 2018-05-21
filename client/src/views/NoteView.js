@@ -8,17 +8,12 @@ import Message from '../components/Message';
 import Pagination from '../components/Pagination';
 import NoteActions from "../actions/Actions";
 
-/*const Router = ReactRouterDOM.BrowserRouter;
-const Route = ReactRouterDOM.Route;
-const Switch = ReactRouterDOM.Switch;*/
-import {BrowserRouter, Route, Switch} from 'react';
 
 class NoteView extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			pageOfItems: [],
-			page: ''
+			pageOfItems: []
 		};
 
 		this.onChangePage = this.onChangePage.bind(this);
@@ -27,6 +22,9 @@ class NoteView extends React.Component {
 	onChangePage(pageOfItems) {
 		// update state with new page of items
 		this.setState({ pageOfItems: pageOfItems });
+
+		//save page number to sessionStorage
+		sessionStorage.setItem("pageNumber", Pagination.defaultProps.currentPage);
 	}
 
 	onRemove(item){
@@ -39,12 +37,10 @@ class NoteView extends React.Component {
 		NoteActions.loadNotes();
 	}
 
+
 	render() {
 		let remove = this.props.onRemoveItem;
 		let edit = this.props.onEditItem;
-
-		let pageNumber = 3;
-		sessionStorage.setItem("pageNumber", pageNumber);
 
 		if (this.props.messages) {
 			return(
@@ -64,7 +60,11 @@ class NoteView extends React.Component {
 								})
 							}
 						</MessageContainer>
-						<Pagination initialPage={+sessionStorage.getItem("pageNumber")} items={this.props.messages} onChangePage={this.onChangePage} />
+						<Pagination
+							initialPage={+sessionStorage.getItem("pageNumber") || 1 }
+							items={this.props.messages}
+							onChangePage={this.onChangePage}
+						/>
 				</Container>
 			);
 		}else {

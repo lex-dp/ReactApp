@@ -28,7 +28,6 @@ const Actions = {
 			.then(({ data }) =>
 				NoteDispatcher.dispatch({
 					type: ActionsTypes.ADD_ITEM,
-					//newItem: data
 					notes: data
 				})
 			);
