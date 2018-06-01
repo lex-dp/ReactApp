@@ -6,12 +6,14 @@ import './css/Pagination.css';
 const propTypes = {
 	items: PropTypes.array.isRequired,
 	onChangePage: PropTypes.func.isRequired,
-	initialPage: PropTypes.number
+	initialPage: PropTypes.number,
+	pageView: PropTypes.number
 };
 
 const defaultProps = {
 	initialPage: 1,
-	currentPage: ''
+	currentPage: '',
+	pageView:    15
 };
 
 class Pagination extends React.Component {
@@ -25,12 +27,23 @@ class Pagination extends React.Component {
 		if (this.props.items && this.props.items.length) {
 			this.setPage(this.props.initialPage);
 		}
+
+		//set count of page view
+		if (this.props.pageView) {
+			defaultProps.pageView = this.props.pageView;
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
 		// reset page if items array has changed
 		if (this.props.items !== prevProps.items) {
 			this.setPage(this.props.initialPage);
+		}
+
+		//update pages list
+		if (this.props.pageView !== prevProps.pageView) {
+			defaultProps.pageView = this.props.pageView;
+			this.setPage();
 		}
 	}
 
@@ -42,8 +55,9 @@ class Pagination extends React.Component {
 			return;
 		}
 
+
 		// get new pager object for specified page
-		pager = this.getPager(items.length, page, 15);
+		pager = this.getPager(items.length, page, defaultProps.pageView);
 
 		// get new page of items from items array
 		let pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);

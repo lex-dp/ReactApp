@@ -2,7 +2,6 @@ import React from 'react';
 
 import './css/Message.css';
 import Error from './Error';
-import NoteActions from "../actions/Actions";
 
 
 class Message extends React.Component {

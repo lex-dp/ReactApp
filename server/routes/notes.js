@@ -47,7 +47,7 @@ exports.delete = function (req, res) {
 			console.error('Load list error');
 			return false;
 		}
-		console.log("note", note);
+
 		note.remove();
 
 		sendNotes(res);
@@ -61,7 +61,7 @@ exports.put = function (req, res) {
 		title: req.body.title,
 		message: req.body.message
 	};
-console.log("req.body", req.body);
+
 	Note.update({ _id: id }, { $set: { title: newData.title, message: newData.message }}, function (err, editNote) {
 		if (err) {
 			console.error('Update list error');
@@ -70,6 +70,4 @@ console.log("req.body", req.body);
 
 		sendNotes(res);
 	});
-
-
 };

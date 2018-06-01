@@ -13,11 +13,15 @@ import NoteContainer from './containers/NoteContainer';
 
 
 class App extends Component {
-	state = {users: []}
+	state = {users: []};
+
 	componentDidMount() {
+
+
+		/*
 		fetch('/users')
 			.then(res => res.json())
-			.then(users => this.setState({ users }));
+			.then(users => this.setState({ users }));*/
 
 		/*fetch('/users', { method: 'POST' })
 			.then(res => res.json())
